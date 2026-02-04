@@ -124,4 +124,18 @@ describe("useDebounce", () => {
 		debounced().catch(() => {});
 		await debounced.runScheduledNow();
 	});
+
+	testWithEffect("Safe to use inside $derived", async () => {
+		const debounced = useDebounce(() => {}, 100);
+
+		{
+			const value = $derived(debounced());
+			await value;
+		}
+
+		{
+			const value = $derived.by(() => debounced());
+			await value;
+		}
+	});
 });

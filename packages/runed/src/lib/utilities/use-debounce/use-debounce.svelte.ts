@@ -39,7 +39,7 @@ export function useDebounce<Args extends unknown[], Return>(
 	callback: (...args: Args) => Return,
 	wait?: MaybeGetter<number | undefined>
 ): UseDebounceReturn<Args, Return> {
-	let context = $state<DebounceContext<Return> | null>(null);
+	let context: DebounceContext<Return> | null = null;
 	const wait$ = $derived(extract(wait, 250));
 
 	function debounced(this: unknown, ...args: Args) {
